@@ -1,4 +1,4 @@
-const CACHE = "revisao-pt-v1";
+const CACHE = "revisao-pt-v3";
 const ASSETS = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", (e) => {

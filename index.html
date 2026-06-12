@@ -121,7 +121,56 @@
         .q-actions { display: flex; align-items: center; gap: 14px; }
         .kbd-hint { font-size: 12px; color: var(--ink-soft); }
 
-        .feedback { border-radius: 12px; padding: 16px 18px; margin-top: 6px; }
+        .feedback { border-radius: 12px; padding: 16px 18px; margin-top: 6px; animation: fadeUp .22s ease; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+        .q-card { animation: fadeUp .25s ease; }
+
+        .tense-block { margin: -4px 0 14px; }
+        .tense-chip {
+          display: inline-flex; align-items: center; gap: 8px;
+          background: var(--azul-wash); color: var(--azul-deep); border: 1px solid #c9d9ea;
+          border-radius: 999px; padding: 6px 14px 6px 6px; font-size: 13px; font-weight: 700;
+          font-family: inherit; cursor: pointer; transition: background .12s ease;
+        }
+        .tense-chip:hover { background: #d4e3f5; }
+        .tense-chip-open { background: var(--azul); color: #fff; border-color: var(--azul); }
+        .tense-chip-open .tense-dot { background: #fff; color: var(--azul); }
+        .tense-chip:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 2px; }
+        .tense-dot {
+          width: 22px; height: 22px; border-radius: 50%; background: var(--azul); color: #fff;
+          display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800;
+        }
+        .tense-panel {
+          background: linear-gradient(180deg, var(--azul-wash), #f0f6fd);
+          border: 1px solid #c9d9ea; border-left: 4px solid var(--azul);
+          border-radius: 10px; padding: 12px 14px; margin-top: 10px; animation: fadeUp .2s ease;
+        }
+        .tense-panel p { margin: 0 0 8px; font-size: 13.5px; line-height: 1.55; color: var(--ink); }
+        .tense-panel p:last-child { margin-bottom: 0; }
+        .tense-panel strong { color: var(--azul-deep); }
+
+        .fb-icon {
+          display: inline-flex; width: 22px; height: 22px; border-radius: 50%;
+          align-items: center; justify-content: center; margin-right: 8px;
+          font-size: 13px; font-weight: 800; color: #fff; vertical-align: -4px;
+        }
+        .fb-correct .fb-icon { background: var(--verde); }
+        .fb-accent .fb-icon { background: var(--amarelo); font-size: 16px; }
+        .fb-wrong .fb-icon { background: var(--vermelho); }
+        .fb-why { margin: 0 0 8px; font-size: 14px; line-height: 1.5; background: rgba(255,255,255,.65); border-radius: 8px; padding: 8px 12px; }
+        .fb-forma { margin: 0 0 14px; font-size: 13px; color: var(--ink-soft); line-height: 1.5; border-top: 1px dashed rgba(20,40,60,.18); padding-top: 10px; }
+
+        .donut {
+          width: 96px; height: 96px; border-radius: 50%; flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center;
+        }
+        .donut-center {
+          width: 68px; height: 68px; border-radius: 50%; background: var(--paper);
+          display: flex; align-items: center; justify-content: center;
+          font-family: 'Fraunces', serif; font-weight: 650; font-size: 19px; color: var(--ink);
+        }
+        .score { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin: 0 0 18px; }
+        .score-pct { margin: 4px 0 0; max-width: 40ch; font-size: 15px; color: var(--ink-soft); font-weight: 600; }
         .fb-correct { background: var(--verde-wash); border: 1px solid #bfe3cf; }
         .fb-accent { background: var(--ambar-wash); border: 1px solid #f0d9ae; }
         .fb-wrong { background: var(--vermelho-wash); border: 1px solid #efc6bc; }
@@ -158,6 +207,9 @@
         .chip-active { background: var(--azul); border-color: var(--azul); color: #fff; }
         .chip:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 2px; }
 
+        .config-card { background: var(--tile); border: 1px solid #dbe6f2; border-radius: var(--radius); padding: 16px 18px; margin: 0 0 14px; }
+        .config-card .chip-label { margin-top: 0; }
+
         .conj-head { display: flex; align-items: baseline; gap: 12px; margin: 18px 0 12px; flex-wrap: wrap; }
         .conj-verb { font-family: 'Fraunces', serif; font-weight: 560; font-size: 32px; margin: 0; color: var(--azul-deep); }
         .conj-tag { font-size: 12px; font-weight: 700; color: #9a6614; background: var(--ambar-wash); border: 1px solid #f0d9ae; border-radius: 999px; padding: 4px 12px; }
@@ -170,9 +222,7 @@
         .conj-row dt { color: var(--ink-soft); font-size: 12.5px; }
         .conj-row dd { margin: 0; font-weight: 600; color: var(--ink); font-family: 'Fraunces', serif; font-size: 15px; }
 
-        .score { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin: 0 0 14px; }
-        .score-big { font-family: 'Fraunces', serif; font-size: 54px; font-weight: 560; color: var(--azul); }
-        .score-pct { font-size: 16px; color: var(--ink-soft); font-weight: 600; }
+        .score-big { font-family: 'Fraunces', serif; font-size: 44px; font-weight: 560; color: var(--azul); line-height: 1; }
         .accent-note { background: var(--ambar-wash); border: 1px solid #f0d9ae; border-radius: 10px; padding: 12px 14px; font-size: 14px; line-height: 1.5; }
         .weak-note { font-size: 15px; margin: 14px 0 6px; }
         .miss-list { margin: 22px 0; display: flex; flex-direction: column; gap: 10px; }
@@ -638,6 +688,106 @@ const VERBS = [
   },
 ];
 
+/* ============ Regulares generados (para balancear la práctica) ============ */
+function makeRegular(name) {
+  const conj = name.endsWith("ar") ? "ar" : name.endsWith("er") ? "er" : "ir";
+  const s = name.slice(0, -2);
+  const E = {
+    ar: {
+      pres: ["o", "a", "amos", "am"],
+      perf: ["ei", "ou", "amos", "aram"],
+      imp: ["ava", "ava", "ávamos", "avam"],
+      imptv: ["e", "em"],
+      sub: ["asse", "asse", "ássemos", "assem"],
+    },
+    er: {
+      pres: ["o", "e", "emos", "em"],
+      perf: ["i", "eu", "emos", "eram"],
+      imp: ["ia", "ia", "íamos", "iam"],
+      imptv: ["a", "am"],
+      sub: ["esse", "esse", "êssemos", "essem"],
+    },
+    ir: {
+      pres: ["o", "e", "imos", "em"],
+      perf: ["i", "iu", "imos", "iram"],
+      imp: ["ia", "ia", "íamos", "iam"],
+      imptv: ["a", "am"],
+      sub: ["isse", "isse", "íssemos", "issem"],
+    },
+  }[conj];
+  const t = {
+    pres: E.pres.map((e) => s + e),
+    perf: E.perf.map((e) => s + e),
+    imp: E.imp.map((e) => s + e),
+    fut: ["ei", "á", "emos", "ão"].map((e) => name + e),
+    fp: ["ia", "ia", "íamos", "iam"].map((e) => name + e),
+    imptv: E.imptv.map((e) => s + e),
+    sub: E.sub.map((e) => s + e),
+  };
+  return { name, group: "Regulares", tag: `regular -${conj.toUpperCase()}`, t };
+}
+
+const EXTRA_REGULARS = [
+  "morar", "estudar", "trabalhar", "gostar", "viajar", "comprar",
+  "beber", "vender", "aprender", "correr",
+  "abrir", "assistir", "decidir",
+].map(makeRegular);
+
+const ALL_VERBS = [...VERBS, ...EXTRA_REGULARS];
+
+/* ============ ¿Qué es cada tiempo? ============ */
+const TENSE_INFO = {
+  perf: {
+    name: "Pretérito Perfeito",
+    que: "Acción puntual y TERMINADA en un momento concreto del pasado (ontem, na semana passada, em 2020). Equivale al indefinido español: hice, fue, tuvimos.",
+    forma: "Regulares: -ei, -ou, -amos, -aram (-AR) / -i, -eu, -emos, -eram (-ER). Los irregulares cambian la raíz: fiz, tive, pude, soube, trouxe.",
+  },
+  imp: {
+    name: "Pretérito Imperfeito",
+    que: "Hábitos, descripciones y acciones en curso del pasado, sin inicio ni fin marcados (antigamente, sempre, enquanto). Equivale a “hacía, era, tenía”.",
+    forma: "-ava, -ávamos, -avam (-AR) e -ia, -íamos, -iam (-ER/-IR). Solo 4 irregulares: ser (era), ter (tinha), vir (vinha), pôr (punha).",
+  },
+  imptv: {
+    name: "Imperativo",
+    que: "Sirve para dar órdenes, consejos, instrucciones y pedidos. En Brasil casi siempre se usa con você/vocês.",
+    forma: "Sale del presente de subjuntivo: toma la 1ª persona del presente y cambia la vocal: faço → faça, trago → traga, digo → diga. De memoria: seja, esteja, vá, dê, saiba, queira.",
+  },
+  fut: {
+    name: "Futuro do Presente",
+    que: "Lo que va a pasar: “haré, dirá, viajaremos”. En el habla se sustituye por ir + infinitivo (vou fazer), pero en lo escrito se usa esta forma.",
+    forma: "Infinitivo completo + ei, á, emos, ão. Solo 3 irregulares: fazer → farei, dizer → direi, trazer → trarei (pierden el -ze-).",
+  },
+  fp: {
+    name: "Futuro do Pretérito",
+    que: "Es el condicional del español: “haría, diría”. Expresa hipótesis, deseos y pedidos corteses (gostaria de…, você poderia…).",
+    forma: "Infinitivo completo + ia, ia, íamos, iam. Los mismos 3 irregulares: faria, diria, traria.",
+  },
+  sub: {
+    name: "Imperfeito do Subjuntivo",
+    que: "Hipótesis irreales o poco probables, casi siempre después de “se”: se eu tivesse… = si yo tuviera…",
+    forma: "Fórmula: toma “eles” del perfeito, quita -ram y agrega -sse: fizeram → fizesse, tiveram → tivesse. La forma de nós lleva acento: fizéssemos.",
+  },
+  tonicos: {
+    name: "Pronomes Oblíquos Tônicos",
+    que: "Son las formas del pronombre que van DESPUÉS de una preposición (para, de, sem, entre, com…): mim, ti, si, nós. Equivalen a “para mí, de ti, sin él”.",
+    forma: "Con “com” se funden: comigo, contigo, consigo, conosco. Excepción clave: si el pronombre es SUJETO de un infinitivo se usa eu: para EU fazer (nunca “para mim fazer”).",
+  },
+  condicional: {
+    name: "Período hipotético",
+    que: "Combina dos tiempos: “Se” + imperfeito do subjuntivo (la hipótesis) → futuro do pretérito (la consecuencia): Se eu tivesse tempo, viajaria = Si tuviera tiempo, viajaría.",
+    forma: "Se + forma en -sse (tivesse, fosse, pudesse) → forma en -ria (faria, teria, iria). Nunca “se eu teria” — ese es el error clásico.",
+  },
+};
+const TOPIC_INFO_KEY = {
+  perfeito: "perf",
+  imperfeito: "imp",
+  imperativo: "imptv",
+  tonicos: "tonicos",
+  futuro: "fut",
+  futpret: "fp",
+  condicional: "condicional",
+};
+
 
 /* ============ App (vanilla JS) ============ */
 const $ = (id) => document.getElementById(id);
@@ -664,10 +814,12 @@ function shuffle(arr) {
   return a;
 }
 
-function genDrill(tKey) {
-  const irregs = VERBS.filter((v) => v.group === "Irregulares");
-  const regs = VERBS.filter((v) => v.group === "Regulares");
-  const v = Math.random() < 0.8 ? irregs[Math.floor(Math.random() * irregs.length)] : regs[Math.floor(Math.random() * regs.length)];
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+function genDrill(tKey, pool) {
+  pool = pool || "both";
+  const irregs = ALL_VERBS.filter((v) => v.group === "Irregulares");
+  const regs = ALL_VERBS.filter((v) => v.group === "Regulares");
+  const v = pool === "irreg" ? pick(irregs) : pool === "reg" ? pick(regs) : Math.random() < 0.6 ? pick(irregs) : pick(regs);
   const forms = v.t[tKey];
   const pi = Math.floor(Math.random() * forms.length);
   const persons = tKey === "imptv" ? ["voc\u00ea", "voc\u00eas"] : PERSONS;
@@ -676,12 +828,35 @@ function genDrill(tKey) {
     drill: true,
     q: condFrame || `${persons[pi]} ___ (${v.name})`,
     verb: `${v.name} \u00b7 ${TENSE_NAME[tKey]}`,
+    vName: v.name,
+    infoKey: tKey,
     a: [forms[pi]],
     exp: `${TENSE_NAME[tKey]} de ${v.name.toUpperCase()}: ${forms.join(" \u00b7 ")}`,
     topicTitle: TENSE_NAME[tKey],
   };
 }
-const genAnyDrill = () => genDrill(ALL_DRILL_TENSES[Math.floor(Math.random() * ALL_DRILL_TENSES.length)]);
+const genAnyDrill = (tenses, pool) => genDrill(pick(tenses || ALL_DRILL_TENSES), pool);
+
+function analyzeWrong(given, question) {
+  const name = question.vName || question.verb;
+  const v = ALL_VERBS.find((x) => x.name === name);
+  if (!v) return null;
+  const g = strip(clean(given));
+  if (!g) return null;
+  for (const [tk, label] of TENSE_LABELS) {
+    const persons = tk === "imptv" ? ["voc\u00ea", "voc\u00eas"] : PERSONS;
+    const forms = v.t[tk];
+    for (let i = 0; i < forms.length; i++) {
+      if (strip(forms[i].toLowerCase()) === g) {
+        if (question.infoKey && tk === question.infoKey) {
+          return `\u201c${given.trim()}\u201d s\u00ed es ${label} de ${name}, pero corresponde a \u201c${persons[i]}\u201d \u2014 f\u00edjate en la persona que pide la frase.`;
+        }
+        return `\u201c${given.trim()}\u201d existe, pero es ${label} (${persons[i]}) de ${name} \u2014 el tiempo no es el que pide el ejercicio.`;
+      }
+    }
+  }
+  return null;
+}
 
 function evaluate(input, question) {
   const given = clean(input);
@@ -702,17 +877,18 @@ function diffHTML(expected, given) {
 }
 
 /* ---------- estado ---------- */
-const S = { view: "home", verbName: "falar", quiz: null };
+const S = { view: "home", verbName: "falar", quiz: null, showInfo: false, infTenses: ALL_DRILL_TENSES.slice(), infPool: "both" };
 
 const App = {
   home() { S.view = "home"; render(); },
   tables() { S.view = "tables"; render(); },
   conjugador() { S.view = "conjugador"; render(); },
   setVerb(n) { S.verbName = n; render(); },
+  toggleInfo() { S.showInfo = !S.showInfo; render(); },
 
   startTopic(id) {
     const topic = TOPICS.find((t) => t.id === id);
-    const curated = shuffle(topic.questions).slice(0, 8).map((q) => Object.assign({}, q, { topicTitle: topic.title }));
+    const curated = shuffle(topic.questions).slice(0, 8).map((q) => Object.assign({}, q, { topicTitle: topic.title, infoKey: TOPIC_INFO_KEY[topic.id] }));
     const tenses = TENSES_BY_TOPIC[id] || [];
     const drills = [];
     for (let i = 0; i < (tenses.length ? 6 : 0); i++) drills.push(genDrill(tenses[i % tenses.length]));
@@ -720,11 +896,34 @@ const App = {
   },
   simulado() {
     let qs = [];
-    TOPICS.forEach((t) => { qs = qs.concat(shuffle(t.questions).slice(0, 2).map((q) => Object.assign({}, q, { topicTitle: t.title }))); });
+    TOPICS.forEach((t) => { qs = qs.concat(shuffle(t.questions).slice(0, 2).map((q) => Object.assign({}, q, { topicTitle: t.title, infoKey: TOPIC_INFO_KEY[t.id] }))); });
     ALL_DRILL_TENSES.forEach((tk) => qs.push(genDrill(tk)));
     startQuiz("Simulado geral", shuffle(qs), false);
   },
-  infinite() { startQuiz("Pr\u00e1tica infinita", [genAnyDrill()], true); },
+  infConfig() { S.view = "infconfig"; render(); },
+  toggleTense(tk) {
+    const i = S.infTenses.indexOf(tk);
+    if (i >= 0) S.infTenses.splice(i, 1); else S.infTenses.push(tk);
+    render();
+  },
+  toggleAllTenses() {
+    S.infTenses = S.infTenses.length === ALL_DRILL_TENSES.length ? [] : ALL_DRILL_TENSES.slice();
+    render();
+  },
+  setPool(p) { S.infPool = p; render(); },
+  infinite() {
+    const tenses = S.infTenses.length ? S.infTenses.slice() : ALL_DRILL_TENSES.slice();
+    startQuiz("Pr\u00e1tica infinita", [genAnyDrill(tenses, S.infPool)], true);
+    S.quiz.tenses = tenses; S.quiz.pool = S.infPool;
+    render();
+  },
+  retryMisses() {
+    const seen = new Set();
+    const qs = S.quiz.log.filter((l) => l.status !== "correct").map((l) => l.q)
+      .filter((q) => (seen.has(q.q) ? false : (seen.add(q.q), true)));
+    if (!qs.length) return;
+    startQuiz("Repaso de fallos", shuffle(qs), false);
+  },
 
   check() {
     const q = cur();
@@ -738,12 +937,12 @@ const App = {
   },
   next() {
     if (S.quiz.infinite) {
-      S.quiz.questions.push(genAnyDrill());
-      S.quiz.idx++; S.quiz.result = null; S.quiz.given = "";
+      S.quiz.questions.push(genAnyDrill(S.quiz.tenses, S.quiz.pool));
+      S.quiz.idx++; S.quiz.result = null; S.quiz.given = ""; S.showInfo = false;
       render(); return;
     }
     if (S.quiz.idx + 1 >= S.quiz.questions.length) { S.view = "results"; render(); }
-    else { S.quiz.idx++; S.quiz.result = null; S.quiz.given = ""; render(); }
+    else { S.quiz.idx++; S.quiz.result = null; S.quiz.given = ""; S.showInfo = false; render(); }
   },
   exitQuiz() {
     if (S.quiz && S.quiz.infinite && S.quiz.log.length) S.view = "results";
@@ -753,6 +952,7 @@ const App = {
 };
 
 function startQuiz(title, questions, infinite) {
+  S.showInfo = false;
   S.quiz = { title, questions, infinite, idx: 0, result: null, given: "", log: [] };
   S.view = "quiz";
   render();
@@ -773,7 +973,7 @@ function vHome() {
     <p class="hero-sub">7 temas, foco en los verbos irregulares y feedback que te dice exactamente qu\u00e9 corregir \u2014 incluidos los acentos. Cada ronda es diferente.</p>
     <div class="hero-actions">
       <button class="btn-primary" onclick="App.simulado()">Empezar simulado completo</button>
-      <button class="btn-primary btn-amber" onclick="App.infinite()">Pr\u00e1tica infinita \u221e</button>
+      <button class="btn-primary btn-amber" onclick="App.infConfig()">Pr\u00e1tica infinita \u221e</button>
       <button class="btn-ghost" onclick="App.conjugador()">Conjugador de verbos</button>
       <button class="btn-ghost" onclick="App.tables()">Ver tablas de irregulares</button>
     </div>
@@ -785,6 +985,31 @@ function vHome() {
         <span class="topic-sub">${esc(t.sub)}</span>
         <span class="topic-count">${t.questions.length} preguntas + ejercicios generados \u2192</span>
       </button>`).join("")}
+  </div>`;
+}
+
+function vInfConfig() {
+  const allSel = S.infTenses.length === ALL_DRILL_TENSES.length;
+  return `
+  <button class="btn-back" onclick="App.home()">\u2190 Volver</button>
+  <h2 class="section-title">Pr\u00e1tica infinita \u221e</h2>
+  <p class="hero-sub">Elige qu\u00e9 quieres machacar. Los ejercicios se generan sin parar hasta que pulses Terminar.</p>
+  <div class="config-card">
+    <p class="chip-label">Tiempos verbales</p>
+    <div class="chip-row">
+      <button class="chip ${allSel ? "chip-active" : ""}" onclick="App.toggleAllTenses()">\ud83c\udfb2 Todos (aleatorio)</button>
+      ${ALL_DRILL_TENSES.map((tk) => `<button class="chip ${S.infTenses.includes(tk) ? "chip-active" : ""}" onclick="App.toggleTense('${tk}')">${esc(TENSE_NAME[tk])}</button>`).join("")}
+    </div>
+  </div>
+  <div class="config-card">
+    <p class="chip-label">Tipo de verbos</p>
+    <div class="chip-row">
+      ${[["both","Ambos (60% irregulares)"],["irreg","Solo irregulares"],["reg","Solo regulares"]].map(([k,label]) => `<button class="chip ${S.infPool === k ? "chip-active" : ""}" onclick="App.setPool('${k}')">${label}</button>`).join("")}
+    </div>
+  </div>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="App.infinite()" ${S.infTenses.length ? "" : "disabled"}>Comenzar \u2192</button>
+    ${S.infTenses.length ? "" : '<span class="kbd-hint">Selecciona al menos un tiempo</span>'}
   </div>`;
 }
 
@@ -803,7 +1028,7 @@ function vTables() {
 }
 
 function vConjugador() {
-  const verb = VERBS.find((v) => v.name === S.verbName) || VERBS[0];
+  const verb = ALL_VERBS.find((v) => v.name === S.verbName) || ALL_VERBS[0];
   const groups = ["Regulares", "Irregulares"];
   return `
   <button class="btn-back" onclick="App.home()">\u2190 Volver</button>
@@ -812,7 +1037,7 @@ function vConjugador() {
     <div class="chip-group">
       <p class="chip-label">${g}</p>
       <div class="chip-row">
-        ${VERBS.filter((v) => v.group === g).map((v) =>
+        ${ALL_VERBS.filter((v) => v.group === g).map((v) =>
           `<button class="chip ${v.name === S.verbName ? "chip-active" : ""}" onclick="App.setVerb('${v.name}')">${esc(v.name)}</button>`).join("")}
       </div>
     </div>`).join("")}
@@ -838,19 +1063,31 @@ function vQuiz() {
   const progress = S.quiz.infinite
     ? `<div class="progress-bar"><div class="progress-fill progress-infinite"></div></div>`
     : `<div class="progress-bar"><div class="progress-fill" style="width:${((S.quiz.idx + (r ? 1 : 0)) / total) * 100}%"></div></div>`;
-  const counter = S.quiz.infinite ? `pregunta ${S.quiz.idx + 1} \u00b7 \u2713 ${ok}` : `${S.quiz.idx + 1} / ${total}`;
+  let streak = 0;
+  for (let i = S.quiz.log.length - 1; i >= 0 && S.quiz.log[i].status === "correct"; i--) streak++;
+  const counter = S.quiz.infinite ? `pregunta ${S.quiz.idx + 1} \u00b7 \u2713 ${ok}${streak >= 3 ? ` \u00b7 \ud83d\udd25 ${streak}` : ""}` : `${S.quiz.idx + 1} / ${total}`;
 
   let fbHtml = "";
   if (r) {
     let line = "";
+    let why = "";
     if (r.status === "accent") line = `Escribiste <span class="fb-given">${esc(S.quiz.given.trim())}</span> \u2014 la forma correcta es ${diffHTML(r.expected, S.quiz.given)}. La letra marcada lleva la diferencia.`;
     if (r.status === "trap") line = `<span class="fb-given">${esc(S.quiz.given.trim())}</span> \u2192 ${esc(r.trapMsg)} Correcto: <strong class="fb-answer">${esc(r.expected)}</strong>`;
-    if (r.status === "wrong") line = `Escribiste <span class="fb-given">${esc(S.quiz.given.trim())}</span>. Correcto: <strong class="fb-answer">${esc(r.expected)}</strong>`;
+    if (r.status === "wrong") {
+      line = `Escribiste <span class="fb-given">${esc(S.quiz.given.trim())}</span>. Correcto: ${diffHTML(r.expected, S.quiz.given)} \u2014 las letras marcadas son las que cambian.`;
+      const a = analyzeWrong(S.quiz.given, q);
+      if (a) why = `<p class="fb-why">\ud83d\udca1 ${esc(a)}</p>`;
+    }
+    const icon = r.status === "correct" ? "\u2713" : r.status === "accent" ? "\u00b4" : "\u2715";
+    const forma = r.status !== "correct" && q.infoKey && TENSE_INFO[q.infoKey]
+      ? `<p class="fb-forma">\ud83d\udcd0 C\u00f3mo se forma: ${esc(TENSE_INFO[q.infoKey].forma)}</p>` : "";
     fbHtml = `
     <div class="feedback ${fb.cls}">
-      <p class="fb-label">${fb.label}</p>
+      <p class="fb-label"><span class="fb-icon">${icon}</span>${fb.label}</p>
       ${line ? `<p class="fb-line">${line}</p>` : ""}
+      ${why}
       <p class="fb-exp">${esc(q.exp)}</p>
+      ${forma}
       <button id="nextBtn" class="btn-primary" onclick="App.next()">${S.quiz.infinite || S.quiz.idx + 1 < total ? "Siguiente" : "Ver resultados"} \u2192</button>
     </div>`;
   }
@@ -862,6 +1099,14 @@ function vQuiz() {
   </div>
   ${progress}
   <div class="q-card">
+    ${q.infoKey && TENSE_INFO[q.infoKey] ? `
+    <div class="tense-block">
+      <button class="tense-chip ${S.showInfo ? "tense-chip-open" : ""}" onclick="App.toggleInfo()"><span class="tense-dot">?</span> ${esc(TENSE_INFO[q.infoKey].name)}</button>
+      ${S.showInfo ? `<div class="tense-panel">
+        <p><strong>\u00bfQu\u00e9 expresa?</strong> ${esc(TENSE_INFO[q.infoKey].que)}</p>
+        <p><strong>\u00bfC\u00f3mo se forma?</strong> ${esc(TENSE_INFO[q.infoKey].forma)}</p>
+      </div>` : ""}
+    </div>` : ""}
     <p class="q-hint">Verbo: <strong>${esc(q.verb)}</strong>${q.topicTitle && (q.drill || S.quiz.title === "Simulado geral") ? `<span class="q-topic"> \u00b7 ${esc(q.topicTitle)}</span>` : ""}</p>
     <p class="q-sentence">${esc(parts[0])}<input id="answer" class="q-input ${r ? fb.cls + "-input" : ""}" ${r ? "disabled" : ""} placeholder="\u2026" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="off"/>${esc(parts[1] || "")}</p>
     ${!r ? `<div class="q-actions"><button class="btn-primary" onclick="App.check()">Verificar</button><span class="kbd-hint">o pulsa Enter</span></div>` : ""}
@@ -888,7 +1133,10 @@ function vResults() {
 
   return `
   <h2 class="section-title">Resultado</h2>
-  <p class="score"><span class="score-big">${correct}/${total}</span><span class="score-pct">${pct}% \u00b7 ${msg}</span></p>
+  <div class="score">
+    <div class="donut" style="background:conic-gradient(${pct >= 80 ? "var(--verde)" : pct >= 60 ? "var(--amarelo)" : "var(--vermelho)"} ${pct * 3.6}deg, var(--azul-wash) 0deg)"><span class="donut-center">${pct}%</span></div>
+    <div><span class="score-big">${correct}/${total}</span><p class="score-pct">${msg}</p></div>
+  </div>
   ${accents > 0 ? `<p class="accent-note">\u26a0 ${accents} ${accents === 1 ? "respuesta era correcta salvo por el acento" : "respuestas eran correctas salvo por el acento"}. En el examen escrito eso descuenta \u2014 rep\u00e1salos abajo.</p>` : ""}
   ${weak.length ? `<p class="weak-note">Temas para repasar: <strong>${weak.map(esc).join(" \u00b7 ")}</strong></p>` : ""}
   ${misses.length ? `
@@ -902,6 +1150,7 @@ function vResults() {
         </div>`).join("")}
     </div>` : ""}
   <div class="hero-actions">
+    ${misses.length ? `<button class="btn-primary btn-amber" onclick="App.retryMisses()">Practicar solo los fallos (${new Set(misses.map((m) => m.q.q)).size})</button>` : ""}
     <button class="btn-primary" onclick="App.home()">Volver al inicio</button>
     <button class="btn-ghost" onclick="App.conjugador()">Conjugador</button>
     <button class="btn-ghost" onclick="App.tables()">Repasar tablas</button>
@@ -910,7 +1159,7 @@ function vResults() {
 
 function render() {
   const root = $("app");
-  const views = { home: vHome, tables: vTables, conjugador: vConjugador, quiz: vQuiz, results: vResults };
+  const views = { home: vHome, tables: vTables, conjugador: vConjugador, quiz: vQuiz, results: vResults, infconfig: vInfConfig };
   root.innerHTML = views[S.view]();
   if (S.view === "quiz") {
     const a = $("answer");
