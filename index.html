@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Revisão PT — Português para a prova</title>
+<meta name="description" content="App offline para repasar portugués: tiempos verbales, irregulares y pronombres con feedback."/>
+<meta name="theme-color" content="#2456a6"/>
+<link rel="manifest" href="./manifest.webmanifest"/>
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png"/>
+<link rel="apple-touch-icon" href="./icon-192.png"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="Revisão PT"/>
+<style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,560;1,9..144,520&family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+          --paper: #f5f8fb;
+          --tile: #ffffff;
+          --ink: #14283c;
+          --ink-soft: #51687e;
+          --azul: #2456a6;
+          --azul-deep: #16386e;
+          --azul-wash: #e2ecf8;
+          --amarelo: #e9a13b;
+          --verde: #2a8a58;
+          --verde-wash: #e3f3ea;
+          --vermelho: #bf4430;
+          --vermelho-wash: #faeae6;
+          --ambar-wash: #fcf2df;
+          --radius: 14px;
+        }
+        * { box-sizing: border-box; }
+        body {
+          min-height: 100vh;
+          background: var(--paper);
+          background-image: radial-gradient(var(--azul-wash) 1px, transparent 1px);
+          background-size: 26px 26px;
+          color: var(--ink);
+          font-family: 'Inter', system-ui, sans-serif;
+          padding: 28px 18px 64px;
+        }
+        .container { max-width: 760px; margin: 0 auto; }
+
+        .eyebrow {
+          font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+          color: var(--azul); font-weight: 700; margin: 0 0 14px;
+        }
+        h1 {
+          font-family: 'Fraunces', serif; font-weight: 560;
+          font-size: clamp(34px, 6vw, 52px); line-height: 1.06; margin: 0 0 16px;
+          letter-spacing: -0.01em;
+        }
+        h1 em { font-style: italic; color: var(--azul); }
+        .hero { padding: 18px 0 30px; }
+        .hero-sub { color: var(--ink-soft); font-size: 16px; line-height: 1.55; max-width: 54ch; margin: 0 0 22px; }
+        .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+
+        .btn-primary {
+          background: var(--azul); color: #fff; border: none; cursor: pointer;
+          padding: 13px 22px; border-radius: 999px; font-size: 15px; font-weight: 600;
+          font-family: inherit; transition: background .15s ease, transform .1s ease;
+        }
+        .btn-primary:hover { background: var(--azul-deep); }
+        .btn-primary:active { transform: scale(.98); }
+        .btn-primary:disabled { opacity: .4; cursor: default; }
+        .btn-amber { background: var(--amarelo); color: #4a3104; }
+        .btn-amber:hover { background: #d18c25; }
+        .progress-infinite { width: 100%; opacity: .35; background: repeating-linear-gradient(90deg, var(--azul) 0 14px, var(--azul-wash) 14px 28px); }
+        .btn-ghost {
+          background: transparent; color: var(--azul); border: 1.5px solid var(--azul);
+          padding: 12px 20px; border-radius: 999px; font-size: 15px; font-weight: 600;
+          font-family: inherit; cursor: pointer; transition: background .15s ease;
+        }
+        .btn-ghost:hover { background: var(--azul-wash); }
+        .btn-back {
+          background: none; border: none; color: var(--azul); font-weight: 600;
+          font-size: 14px; cursor: pointer; padding: 6px 0; font-family: inherit;
+        }
+        .btn-primary:focus-visible, .btn-ghost:focus-visible, .btn-back:focus-visible, .topic-card:focus-visible {
+          outline: 3px solid var(--amarelo); outline-offset: 2px;
+        }
+
+        .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+        .topic-card {
+          background: var(--tile); border: 1px solid #dbe6f2; border-top: 4px solid var(--azul);
+          border-radius: var(--radius); padding: 18px 16px 14px; text-align: left; cursor: pointer;
+          display: flex; flex-direction: column; gap: 6px; font-family: inherit;
+          transition: transform .12s ease, box-shadow .12s ease;
+        }
+        .topic-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(20,40,60,.08); }
+        .topic-title { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 560; color: var(--ink); }
+        .topic-sub { font-size: 13px; color: var(--ink-soft); line-height: 1.4; }
+        .topic-count { font-size: 12px; font-weight: 700; color: var(--azul); margin-top: auto; padding-top: 8px; }
+
+        .section-title { font-family: 'Fraunces', serif; font-weight: 560; font-size: 30px; margin: 14px 0 18px; }
+
+        .quiz-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        .quiz-progress { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+        .progress-bar { height: 5px; background: var(--azul-wash); border-radius: 99px; margin: 12px 0 22px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--azul); border-radius: 99px; transition: width .25s ease; }
+
+        .q-card { background: var(--tile); border: 1px solid #dbe6f2; border-radius: var(--radius); padding: 26px 22px; box-shadow: 0 6px 24px rgba(20,40,60,.06); }
+        .q-hint { font-size: 13px; color: var(--ink-soft); margin: 0 0 14px; }
+        .q-hint strong { color: var(--azul); }
+        .q-topic { color: var(--ink-soft); }
+        .q-sentence { font-family: 'Fraunces', serif; font-size: clamp(20px, 3.4vw, 26px); line-height: 1.6; margin: 0 0 20px; }
+        .q-input {
+          font-family: 'Fraunces', serif; font-size: inherit; color: var(--azul-deep);
+          border: none; border-bottom: 2.5px solid var(--azul); background: var(--azul-wash);
+          border-radius: 6px 6px 0 0; padding: 2px 10px; margin: 0 4px; text-align: center;
+          min-width: 90px; max-width: 100%;
+        }
+        .q-input:focus { outline: none; border-bottom-color: var(--amarelo); }
+        .fb-correct-input { background: var(--verde-wash); border-bottom-color: var(--verde); color: var(--verde); }
+        .fb-accent-input { background: var(--ambar-wash); border-bottom-color: var(--amarelo); color: #9a6614; }
+        .fb-wrong-input { background: var(--vermelho-wash); border-bottom-color: var(--vermelho); color: var(--vermelho); text-decoration: line-through; }
+
+        .q-actions { display: flex; align-items: center; gap: 14px; }
+        .kbd-hint { font-size: 12px; color: var(--ink-soft); }
+
+        .feedback { border-radius: 12px; padding: 16px 18px; margin-top: 6px; }
+        .fb-correct { background: var(--verde-wash); border: 1px solid #bfe3cf; }
+        .fb-accent { background: var(--ambar-wash); border: 1px solid #f0d9ae; }
+        .fb-wrong { background: var(--vermelho-wash); border: 1px solid #efc6bc; }
+        .fb-label { font-weight: 700; margin: 0 0 8px; font-size: 15px; }
+        .fb-correct .fb-label { color: var(--verde); }
+        .fb-accent .fb-label { color: #9a6614; }
+        .fb-wrong .fb-label { color: var(--vermelho); }
+        .fb-line { margin: 0 0 8px; font-size: 15px; line-height: 1.55; }
+        .fb-given { text-decoration: line-through; opacity: .75; }
+        .fb-answer { color: var(--ink); }
+        .fb-exp { margin: 0 0 14px; font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+        .diff-word { font-weight: 700; font-size: 1.1em; letter-spacing: .02em; }
+        .diff-hl { background: var(--amarelo); color: #fff; border-radius: 4px; padding: 0 2px; }
+
+        .tables-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+        .table-card { background: var(--tile); border: 1px solid #dbe6f2; border-radius: var(--radius); padding: 18px; }
+        .table-card h3 { font-family: 'Fraunces', serif; font-weight: 560; font-size: 17px; margin: 0 0 4px; }
+        .table-note { font-size: 12px; color: var(--azul); font-weight: 600; margin: 0 0 12px; }
+        .table-card dl { margin: 0; }
+        .table-row { display: flex; gap: 10px; padding: 6px 0; border-bottom: 1px dashed #e3ecf5; font-size: 13.5px; }
+        .table-row:last-child { border-bottom: none; }
+        .table-row dt { font-weight: 700; min-width: 86px; color: var(--azul-deep); }
+        .table-row dd { margin: 0; color: var(--ink-soft); line-height: 1.45; }
+
+        .chip-group { margin: 4px 0 14px; }
+        .chip-label { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--ink-soft); margin: 0 0 8px; }
+        .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip {
+          background: var(--tile); border: 1.5px solid #c9d9ea; color: var(--azul-deep);
+          border-radius: 999px; padding: 7px 16px; font-size: 14px; font-weight: 600;
+          font-family: inherit; cursor: pointer; transition: background .12s ease, border-color .12s ease;
+        }
+        .chip:hover { border-color: var(--azul); }
+        .chip-active { background: var(--azul); border-color: var(--azul); color: #fff; }
+        .chip:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 2px; }
+
+        .conj-head { display: flex; align-items: baseline; gap: 12px; margin: 18px 0 12px; flex-wrap: wrap; }
+        .conj-verb { font-family: 'Fraunces', serif; font-weight: 560; font-size: 32px; margin: 0; color: var(--azul-deep); }
+        .conj-tag { font-size: 12px; font-weight: 700; color: #9a6614; background: var(--ambar-wash); border: 1px solid #f0d9ae; border-radius: 999px; padding: 4px 12px; }
+        .conj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+        .conj-card { background: var(--tile); border: 1px solid #dbe6f2; border-radius: var(--radius); padding: 14px 16px; }
+        .conj-card h4 { font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--azul); margin: 0 0 10px; }
+        .conj-card dl { margin: 0; }
+        .conj-row { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; border-bottom: 1px dashed #e3ecf5; font-size: 14px; }
+        .conj-row:last-child { border-bottom: none; }
+        .conj-row dt { color: var(--ink-soft); font-size: 12.5px; }
+        .conj-row dd { margin: 0; font-weight: 600; color: var(--ink); font-family: 'Fraunces', serif; font-size: 15px; }
+
+        .score { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin: 0 0 14px; }
+        .score-big { font-family: 'Fraunces', serif; font-size: 54px; font-weight: 560; color: var(--azul); }
+        .score-pct { font-size: 16px; color: var(--ink-soft); font-weight: 600; }
+        .accent-note { background: var(--ambar-wash); border: 1px solid #f0d9ae; border-radius: 10px; padding: 12px 14px; font-size: 14px; line-height: 1.5; }
+        .weak-note { font-size: 15px; margin: 14px 0 6px; }
+        .miss-list { margin: 22px 0; display: flex; flex-direction: column; gap: 10px; }
+        .miss-list h3 { font-family: 'Fraunces', serif; font-weight: 560; font-size: 20px; margin: 0 0 4px; }
+        .miss-item { background: var(--tile); border: 1px solid #efc6bc; border-left: 4px solid var(--vermelho); border-radius: 10px; padding: 14px 16px; }
+        .miss-accent { border-color: #f0d9ae; border-left-color: var(--amarelo); }
+        .miss-q { font-family: 'Fraunces', serif; font-size: 16px; margin: 0 0 6px; }
+        .miss-detail { font-size: 14px; margin: 0 0 6px; }
+        .miss-exp { font-size: 13px; color: var(--ink-soft); margin: 0; line-height: 1.5; }
+
+        @media (max-width: 480px) {
+          body { padding: 18px 12px 48px; }
+          .q-card { padding: 20px 16px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          * { transition: none !important; }
+        }
+      
+body { margin: 0; }
+</style>
+</head>
+<body>
+<div class="container" id="app"></div>
+<script>
+/* ============ Banco de preguntas ============ */
+const TOPICS = [
+  {
+    id: "perfeito",
+    title: "Pretérito Perfeito",
+    sub: "Acciones terminadas · irregulares clave",
+    questions: [
+      { q: "Ontem eu ___ o dever de casa.", verb: "fazer", a: ["fiz"], exp: "FAZER es irregular en el perfeito: fiz, fez, fizemos, fizeram. Nada de “fazi”.", traps: { fazi: "“Fazi” no existe — FAZER cambia de raíz en el perfeito: eu fiz.", fez: "“Fez” es la forma de ele/ela/você. Para EU es “fiz”." } },
+      { q: "Ela ___ uma ideia ótima na reunião.", verb: "ter", a: ["teve"], exp: "TER: tive, teve, tivemos, tiveram. La raíz cambia a tiv-.", traps: { teu: "“Teu” es un posesivo (tuyo). La forma de ela es “teve”.", tive: "“Tive” es para EU. Para ela/ele/você es “teve”." } },
+      { q: "Nós ___ à praia no sábado.", verb: "ir", a: ["fomos"], exp: "IR y SER comparten formas en el perfeito: fui, foi, fomos, foram. El contexto decide el significado.", traps: { imos: "IR es totalmente irregular en el perfeito: nós fomos (igual que SER)." } },
+      { q: "Vocês ___ resolver o problema?", verb: "poder", a: ["puderam"], exp: "PODER: pude, pôde, pudemos, puderam. Ojo con el cambio o → u.", traps: { poderam: "Casi — la raíz cambia: pud-. Es “puderam”, no “poderam”." } },
+      { q: "Eu não ___ da festa até ontem.", verb: "saber", a: ["soube"], exp: "SABER: soube, soube, soubemos, souberam. En el perfeito suele significar “enterarse”.", traps: { sabi: "SABER es irregular: eu soube (= me enteré)." } },
+      { q: "Ele ___ a verdade para todo mundo.", verb: "dizer", a: ["disse"], exp: "DIZER: disse, disse, dissemos, disseram. Doble s, sin acento.", traps: { dizeu: "DIZER cambia de raíz: ele disse.", diz: "“Diz” es presente. En perfeito: disse." } },
+      { q: "Eles ___ de ônibus para o centro.", verb: "vir", a: ["vieram"], exp: "VIR: vim, veio, viemos, vieram. No confundir con VER (viram).", traps: { viram: "¡Trampa clásica! “Viram” es de VER. De VIR es “vieram”.", vinheram: "No existe — es “vieram”." } },
+      { q: "Eu ___ no Rio na semana passada.", verb: "estar", a: ["estive"], exp: "ESTAR: estive, esteve, estivemos, estiveram. Raíz estiv-.", traps: { estava: "“Estava” es imperfeito (descripción). Para una acción puntual y terminada: estive." } },
+      { q: "Você ___ sair ontem à noite?", verb: "querer", a: ["quis"], exp: "QUERER: quis, quis, quisemos, quiseram.", traps: { quereu: "QUERER es irregular: você quis." } },
+      { q: "Ela ___ os documentos na mesa.", verb: "pôr", a: ["pôs"], exp: "PÔR: pus, pôs, pusemos, puseram. “Pôs” lleva acento circunflejo para distinguirse de “pos”.", traps: { ponhou: "No existe — PÔR: ela pôs." } },
+      { q: "Nós ___ os salgados para a festa.", verb: "trazer", a: ["trouxemos"], exp: "TRAZER: trouxe, trouxe, trouxemos, trouxeram. La x suena como /s/.", traps: { trazemos: "“Trazemos” es presente. En perfeito la raíz cambia: trouxemos." } },
+      { q: "Eu ___ um presente para ela.", verb: "dar", a: ["dei"], exp: "DAR: dei, deu, demos, deram.", traps: { dou: "“Dou” es presente. En perfeito: dei." } },
+      { q: "Você ___ o jogo do Flamengo ontem?", verb: "ver", a: ["viu"], exp: "VER: vi, viu, vimos, viram. No confundir con VIR (veio).", traps: { veio: "“Veio” es de VIR (venir). De VER es “viu”." } },
+      { q: "Ele ___ muito gentil comigo no primeiro dia.", verb: "ser", a: ["foi"], exp: "SER en perfeito = IR: fui, foi, fomos, foram.", traps: { era: "“Era” es imperfeito (descripción habitual). Para un hecho puntual y cerrado: foi." } },
+    ],
+  },
+  {
+    id: "imperfeito",
+    title: "Pretérito Imperfeito",
+    sub: "Hábitos y descripciones · solo 4 irregulares",
+    questions: [
+      { q: "Quando eu ___ criança, morava na Guatemala.", verb: "ser", a: ["era"], exp: "SER: era, era, éramos, eram. Uno de los únicos 4 irregulares del imperfeito (ser, ter, vir, pôr).", traps: { fui: "“Fui” es perfeito. Para describir una etapa de la vida: era." } },
+      { q: "Antigamente nós ___ um cachorro.", verb: "ter", a: ["tínhamos"], exp: "TER: tinha, tinha, tínhamos, tinham. La forma de nós lleva acento: tínhamos.", traps: { temos: "“Temos” es presente. Hábito pasado: tínhamos." } },
+      { q: "Ela sempre ___ nos visitar aos domingos.", verb: "vir", a: ["vinha"], exp: "VIR: vinha, vinha, vínhamos, vinham. “Sempre” + pasado = imperfeito.", traps: { veio: "“Veio” es perfeito (una vez). Con “sempre” (hábito): vinha." } },
+      { q: "Eles ___ a mesa todos os dias.", verb: "pôr", a: ["punham"], exp: "PÔR: punha, punha, púnhamos, punham.", traps: { poniam: "Eso es español 🙂 En portugués: punham." } },
+      { q: "Vocês ___ muito amigos na escola?", verb: "ser", a: ["eram"], exp: "SER: era, éramos, eram.", traps: { foram: "“Foram” es perfeito. Descripción de una relación en el pasado: eram." } },
+      { q: "Eu ___ medo de escuro quando era pequeno.", verb: "ter", a: ["tinha"], exp: "TER: tinha. Estados y descripciones del pasado van en imperfeito." },
+      { q: "Nós ___ vizinhos naquela época.", verb: "ser", a: ["éramos"], exp: "SER: éramos lleva acento agudo en la é.", traps: { eramos: "Te faltó el acento: éramos." } },
+      { q: "Enquanto ele ___ para casa, começou a chover.", verb: "vir", a: ["vinha"], exp: "Acción en curso interrumpida por otra → imperfeito: vinha. La interrupción (começou) va en perfeito." },
+      { q: "Eu ___ em Antigua antes de me mudar.", verb: "morar", a: ["morava"], exp: "Regular en -AR: -ava, -ava, -ávamos, -avam. Los regulares del imperfeito son muy estables." },
+      { q: "Minha avó ___ açúcar demais no café.", verb: "pôr", a: ["punha"], exp: "PÔR: punha. Hábito del pasado → imperfeito." },
+    ],
+  },
+  {
+    id: "imperativo",
+    title: "Modo Imperativo",
+    sub: "Órdenes con você/vocês · irregulares",
+    questions: [
+      { q: "___ silêncio, por favor! (fazer, você)", verb: "fazer", a: ["faça"], exp: "Imperativo de você = presente de subjuntivo: faça. Con cedilha (ç).", traps: { faz: "“Faz” es el imperativo de TU. Para VOCÊ: faça.", faca: "“Faca” sin cedilha significa cuchillo 🔪 — es faça." } },
+      { q: "___ a verdade! (dizer, você)", verb: "dizer", a: ["diga"], exp: "DIZER → diga. Sale de la 1ª persona del presente: digo → diga.", traps: { diz: "“Diz” es para TU. Para VOCÊ: diga." } },
+      { q: "___ com calma, não precisa correr! (ir, você)", verb: "ir", a: ["vá"], exp: "IR → vá (vocês: vão). Totalmente irregular, lleva acento.", traps: { vai: "“Vai” es para TU. Para VOCÊ: vá." } },
+      { q: "___ paciente com ele, por favor. (ser, você)", verb: "ser", a: ["seja"], exp: "SER → seja. Uno de los irregulares que hay que memorizar: seja, esteja, vá, dê, saiba, queira." },
+      { q: "___ os documentos amanhã. (trazer, você)", verb: "trazer", a: ["traga"], exp: "TRAZER → traga (de trago → traga).", traps: { traz: "“Traz” es para TU. Para VOCÊ: traga." } },
+      { q: "___ aqui um instante, por favor! (vir, vocês)", verb: "vir", a: ["venham"], exp: "VIR → venha / venham (de venho).", traps: { venha: "Es para vocês (plural): venham." } },
+      { q: "___ uma olhada nisto quando puder. (dar, você)", verb: "dar", a: ["dê"], exp: "DAR → dê, con acento circunflejo. Vocês: deem.", traps: { da: "“Dá” es para TU; “da” es de+a. Para VOCÊ: dê." } },
+      { q: "___ o casaco, está frio lá fora! (pôr, você)", verb: "pôr", a: ["ponha"], exp: "PÔR → ponha (de ponho)." },
+      { q: "___ prontos às oito em ponto. (estar, vocês)", verb: "estar", a: ["estejam"], exp: "ESTAR → esteja / estejam. Irregular de memoria." },
+      { q: "Não ___ de me ligar quando chegar! (esquecer, você)", verb: "esquecer", a: ["esqueça"], exp: "Verbos en -CER cambian c → ç delante de a: esqueça. El imperativo negativo usa la misma forma de subjuntivo.", traps: { esquece: "“Esquece” es para TU (afirmativo). Negativo + você: não esqueça." } },
+      { q: "___ que pode contar comigo. (saber, você)", verb: "saber", a: ["saiba"], exp: "SABER → saiba. Otro de los irregulares de memoria." },
+    ],
+  },
+  {
+    id: "tonicos",
+    title: "Pronomes Oblíquos Tônicos",
+    sub: "mim, ti, si, comigo, conosco…",
+    questions: [
+      { q: "Este presente é para ___. (eu)", verb: "eu → ?", a: ["mim"], exp: "Después de preposición (para, de, sem, por…), EU se convierte en MIM.", traps: { eu: "Después de preposición no se usa “eu”: para mim.", me: "“Me” es átono (me viu). Con preposición: mim." } },
+      { q: "Você quer ir ao cinema ___? (com + eu)", verb: "com + eu", a: ["comigo"], exp: "Com + mim = COMIGO. Forma especial obligatoria.", traps: { "com mim": "“Com mim” no existe — se funden en “comigo”." } },
+      { q: "Ela falou de ___ ontem. (tu)", verb: "tu → ?", a: ["ti"], exp: "Después de preposición, TU se convierte en TI.", traps: { tu: "Después de preposición: ti (falou de ti)." } },
+      { q: "Eles vêm ___ à festa de sábado. (com + nós)", verb: "com + nós", a: ["conosco"], exp: "Com + nós = CONOSCO (en Brasil; “connosco” es de Portugal).", traps: { "com nós": "Se funden: conosco." } },
+      { q: "Entre ___ e você, não há segredos. (eu)", verb: "entre + eu", a: ["mim"], exp: "“Entre” es preposición → entre MIM e você. “Entre eu e você” es un error clásico incluso de nativos.", traps: { eu: "Trampa clásica: después de “entre” va el tónico → entre mim e você." } },
+      { q: "Isto é difícil para ___ entender. (eu)", verb: "para + eu/mim?", a: ["eu"], exp: "⚡ Excepción clave: cuando el pronombre es SUJETO de un infinitivo, se usa EU: “para eu entender” (yo entiendo). “Para mim entender” es incorrecto.", traps: { mim: "¡Aquí no! “Mim” no puede ser sujeto. Como va a realizar la acción de entender → para EU entender." } },
+      { q: "Ele só pensa em ___ mesmo. (ele, reflexivo)", verb: "reflexivo", a: ["si"], exp: "SI es el tónico reflexivo de 3ª persona: pensa em si mesmo (en sí mismo)." },
+      { q: "Ela sempre leva o caderno ___. (com + ela mesma)", verb: "com + si", a: ["consigo"], exp: "Com + si = CONSIGO (reflexivo: con ella misma)." },
+      { q: "Não saia sem ___, espera aí! (eu)", verb: "sem + eu", a: ["mim"], exp: "Preposición “sem” + 1ª persona → sem mim." },
+      { q: "Comprei este livro para ___. (tu)", verb: "para + tu", a: ["ti"], exp: "Para + tu → para ti. (Con você sería “para você”, que no cambia.)" },
+    ],
+  },
+  {
+    id: "futuro",
+    title: "Futuro do Presente",
+    sub: "farei, direi, trarei · solo 3 irregulares",
+    questions: [
+      { q: "Amanhã eu ___ a prova de português.", verb: "fazer", a: ["farei"], exp: "Solo 3 verbos son irregulares en el futuro: FAZER → farei, DIZER → direi, TRAZER → trarei. Pierden la sílaba -ze-.", traps: { fazerei: "FAZER pierde el -ze-: farei." } },
+      { q: "Ela ___ o resultado na sexta-feira.", verb: "dizer", a: ["dirá"], exp: "DIZER → direi, dirá, diremos, dirão. Acento en dirá.", traps: { dizera: "DIZER pierde el -ze-: dirá.", dira: "Te falta el acento: dirá." } },
+      { q: "Nós ___ as bebidas para o churrasco.", verb: "trazer", a: ["traremos"], exp: "TRAZER → trarei, trará, traremos, trarão.", traps: { trazeremos: "TRAZER pierde el -ze-: traremos." } },
+      { q: "Eles ___ uma viagem para o Nordeste em julho.", verb: "fazer", a: ["farão"], exp: "FAZER → farão, con til en -ão.", traps: { farao: "Te falta el til: farão.", fazerão: "Pierde el -ze-: farão." } },
+      { q: "Você ___ a verdade para ele algum dia?", verb: "dizer", a: ["dirá"], exp: "DIZER → dirá. Los otros verbos terminados en -zer (como fazer, trazer) siguen el mismo patrón." },
+      { q: "Eu ___ para o Vietnã em março.", verb: "viajar", a: ["viajarei"], exp: "Regular: infinitivo + ei, á, emos, ão → viajarei. Todos los demás verbos son regulares en el futuro." },
+      { q: "Nós ___ sair mais cedo na sexta?", verb: "poder", a: ["poderemos"], exp: "⚡ Ojo: PODER es irregular en el perfeito (pude), pero REGULAR en el futuro: poderemos.", traps: { puderemos: "En futuro PODER es regular: poderemos. (“Pudermos” sería futuro do subjuntivo.)" } },
+      { q: "Eu ___ meu caderno de anotações.", verb: "trazer", a: ["trarei"], exp: "TRAZER → trarei. Memoriza el trío: farei, direi, trarei." },
+    ],
+  },
+  {
+    id: "futpret",
+    title: "Futuro do Pretérito",
+    sub: "faria, diria, traria · cortesía e hipótesis",
+    questions: [
+      { q: "Eu ___ tudo diferente no seu lugar.", verb: "fazer", a: ["faria"], exp: "Los mismos 3 irregulares del futuro: FAZER → faria, DIZER → diria, TRAZER → traria.", traps: { fazeria: "Pierde el -ze-: faria." } },
+      { q: "Você ___ isso na frente dela?", verb: "dizer", a: ["diria"], exp: "DIZER → diria. Terminaciones: -ia, -ia, -íamos, -iam sobre el infinitivo (o raíz irregular)." },
+      { q: "Nós ___ mais comida, mas não deu tempo.", verb: "trazer", a: ["traríamos"], exp: "TRAZER → traríamos. La forma de nós lleva acento en la í.", traps: { trariamos: "Te falta el acento: traríamos.", trazeriamos: "Pierde el -ze- y lleva acento: traríamos." } },
+      { q: "Eles ___ de conhecer o Rio de Janeiro.", verb: "gostar", a: ["gostariam"], exp: "Regular: gostariam. Se usa para hipótesis y deseos." },
+      { q: "Eu ___ de um café, por favor. (pedido educado)", verb: "gostar", a: ["gostaria"], exp: "“Gostaria de…” es LA fórmula de cortesía en Brasil para pedir algo." },
+      { q: "Ela ___ que sim, tenho certeza.", verb: "dizer", a: ["diria"], exp: "DIZER → diria." },
+      { q: "Você ___ me ajudar com isto? (pedido educado)", verb: "poder", a: ["poderia"], exp: "PODER es regular aquí: poderia. “Você poderia…?” = ¿podrías…? (cortesía)." },
+      { q: "Sem você, eu não ___ nada disso.", verb: "fazer", a: ["faria"], exp: "FAZER → faria. Hipótesis sobre el presente/futuro." },
+    ],
+  },
+  {
+    id: "condicional",
+    title: "Condicional",
+    sub: "Se + imperfeito do subjuntivo → futuro do pretérito",
+    questions: [
+      { q: "Se eu ___ dinheiro, viajaria pelo mundo.", verb: "ter", a: ["tivesse"], exp: "Fórmula: toma “eles” del perfeito, quita -ram, añade -sse → tiveram → tivesse.", traps: { teria: "“Teria” va en la otra mitad de la frase. Después de SE: imperfeito do subjuntivo → tivesse.", tenha: "“Tenha” es presente de subjuntivo. Hipótesis irreal: tivesse." } },
+      { q: "Se nós ___, ajudaríamos vocês com a mudança.", verb: "poder", a: ["pudéssemos"], exp: "Puderam → pudesse. La forma de nós lleva acento: pudéssemos.", traps: { pudessemos: "Te falta el acento: pudéssemos.", podessemos: "La raíz viene del perfeito (puderam): pudéssemos." } },
+      { q: "Se ela ___ a verdade, ficaria muito triste.", verb: "saber", a: ["soubesse"], exp: "Souberam → soubesse.", traps: { sabesse: "La raíz sale del perfeito: souberam → soubesse." } },
+      { q: "Se vocês ___ amanhã, faríamos um churrasco.", verb: "vir", a: ["viessem"], exp: "Vieram → viesse → viessem (plural).", traps: { vissem: "“Vissem” es de VER. De VIR: viessem." } },
+      { q: "Se eu fosse você, ___ mais para a prova.", verb: "estudar", a: ["estudaria"], exp: "La consecuencia (sin “se”) va en futuro do pretérito: estudaria.", traps: { estudasse: "“Estudasse” iría después de SE. La consecuencia va en -ria: estudaria." } },
+      { q: "Se ele ___ mais paciente, teria menos problemas.", verb: "ser", a: ["fosse"], exp: "Foram → fosse. SER e IR comparten también el subjuntivo: fosse." },
+      { q: "Se eu ___ a prova hoje, não passaria.", verb: "fazer", a: ["fizesse"], exp: "Fizeram → fizesse.", traps: { fazesse: "La raíz viene del perfeito (fizeram): fizesse." } },
+      { q: "Se você estudasse um pouco mais, ___ notas melhores.", verb: "tirar", a: ["tiraria"], exp: "Consecuencia → futuro do pretérito: tiraria." },
+      { q: "Se eles ___, poderiam ficar aqui em casa.", verb: "querer", a: ["quisessem"], exp: "Quiseram → quisesse → quisessem.", traps: { queressem: "Raíz del perfeito: quiseram → quisessem." } },
+      { q: "Se nós ___ de manhã cedo, evitaríamos o trânsito.", verb: "ir", a: ["fôssemos"], exp: "Foram → fosse; nós = fôssemos, con acento circunflejo.", traps: { fossemos: "Te falta el acento: fôssemos." } },
+      { q: "Se ela ___ o carro, chegaríamos bem mais rápido.", verb: "trazer", a: ["trouxesse"], exp: "Trouxeram → trouxesse.", traps: { trazesse: "Raíz del perfeito: trouxeram → trouxesse." } },
+      { q: "Eu te ___ tudo, se você me perguntasse.", verb: "dizer", a: ["diria"], exp: "La consecuencia va en futuro do pretérito, con la raíz irregular: diria.", traps: { dissesse: "“Dissesse” iría después de SE. La consecuencia: diria." } },
+    ],
+  },
+];
+
+/* ============ Tablas de referencia ============ */
+const TABLES = [
+  {
+    title: "Pretérito Perfeito — irregulares",
+    note: "eu · ele/você · nós · eles",
+    rows: [
+      ["ser / ir", "fui · foi · fomos · foram"],
+      ["ter", "tive · teve · tivemos · tiveram"],
+      ["fazer", "fiz · fez · fizemos · fizeram"],
+      ["estar", "estive · esteve · estivemos · estiveram"],
+      ["poder", "pude · pôde · pudemos · puderam"],
+      ["querer", "quis · quis · quisemos · quiseram"],
+      ["dizer", "disse · disse · dissemos · disseram"],
+      ["saber", "soube · soube · soubemos · souberam"],
+      ["trazer", "trouxe · trouxe · trouxemos · trouxeram"],
+      ["vir", "vim · veio · viemos · vieram"],
+      ["ver", "vi · viu · vimos · viram"],
+      ["pôr", "pus · pôs · pusemos · puseram"],
+      ["dar", "dei · deu · demos · deram"],
+    ],
+  },
+  {
+    title: "Pretérito Imperfeito — solo 4 irregulares",
+    note: "Regulares: -ava (1ª conj.) / -ia (2ª y 3ª)",
+    rows: [
+      ["ser", "era · era · éramos · eram"],
+      ["ter", "tinha · tinha · tínhamos · tinham"],
+      ["vir", "vinha · vinha · vínhamos · vinham"],
+      ["pôr", "punha · punha · púnhamos · punham"],
+    ],
+  },
+  {
+    title: "Imperativo (você / vocês) — irregulares",
+    note: "Regla: sale del presente de subjuntivo",
+    rows: [
+      ["ser", "seja / sejam"],
+      ["estar", "esteja / estejam"],
+      ["ir", "vá / vão"],
+      ["dar", "dê / deem"],
+      ["saber", "saiba / saibam"],
+      ["querer", "queira / queiram"],
+      ["fazer", "faça / façam"],
+      ["dizer", "diga / digam"],
+      ["trazer", "traga / tragam"],
+      ["vir", "venha / venham"],
+      ["pôr", "ponha / ponham"],
+    ],
+  },
+  {
+    title: "Pronomes oblíquos tônicos",
+    note: "Siempre después de preposición",
+    rows: [
+      ["eu", "mim → com + eu = comigo"],
+      ["tu", "ti → com + tu = contigo"],
+      ["ele/ela/você (reflexivo)", "si → consigo"],
+      ["nós", "nós → com + nós = conosco"],
+      ["eles/elas/vocês", "eles/elas/vocês"],
+      ["⚡ Excepción", "sujeto de infinitivo = EU: “para eu fazer” (no “para mim fazer”)"],
+    ],
+  },
+  {
+    title: "Futuro do Presente — solo 3 irregulares",
+    note: "Regulares: infinitivo + ei · á · emos · ão",
+    rows: [
+      ["fazer", "farei · fará · faremos · farão"],
+      ["dizer", "direi · dirá · diremos · dirão"],
+      ["trazer", "trarei · trará · traremos · trarão"],
+    ],
+  },
+  {
+    title: "Futuro do Pretérito — los mismos 3",
+    note: "Regulares: infinitivo + ia · ia · íamos · iam",
+    rows: [
+      ["fazer", "faria · faria · faríamos · fariam"],
+      ["dizer", "diria · diria · diríamos · diriam"],
+      ["trazer", "traria · traria · traríamos · trariam"],
+    ],
+  },
+  {
+    title: "Imperfeito do Subjuntivo — fórmula",
+    note: "eles (perfeito) − ram + sse · nós lleva acento",
+    rows: [
+      ["fizeram → ", "fizesse · fizéssemos · fizessem"],
+      ["tiveram →", "tivesse · tivéssemos · tivessem"],
+      ["foram →", "fosse · fôssemos · fossem"],
+      ["puderam →", "pudesse · pudéssemos · pudessem"],
+      ["souberam →", "soubesse · soubéssemos · soubessem"],
+      ["disseram →", "dissesse · disséssemos · dissessem"],
+      ["vieram →", "viesse · viéssemos · viessem"],
+      ["quiseram →", "quisesse · quiséssemos · quisessem"],
+      ["trouxeram →", "trouxesse · trouxéssemos · trouxessem"],
+      ["puseram →", "pusesse · puséssemos · pusessem"],
+    ],
+  },
+];
+
+/* ============ Conjugador ============ */
+const PERSONS = ["eu", "você / ele / ela", "nós", "vocês / eles / elas"];
+const TENSE_LABELS = [
+  ["pres", "Presente"],
+  ["perf", "Pretérito Perfeito"],
+  ["imp", "Pretérito Imperfeito"],
+  ["fut", "Futuro do Presente"],
+  ["fp", "Futuro do Pretérito"],
+  ["imptv", "Imperativo (você / vocês)"],
+  ["sub", "Imperfeito do Subjuntivo"],
+];
+
+const VERBS = [
+  {
+    name: "falar", group: "Regulares", tag: "modelo -AR",
+    t: {
+      pres: ["falo", "fala", "falamos", "falam"],
+      perf: ["falei", "falou", "falamos", "falaram"],
+      imp: ["falava", "falava", "falávamos", "falavam"],
+      fut: ["falarei", "falará", "falaremos", "falarão"],
+      fp: ["falaria", "falaria", "falaríamos", "falariam"],
+      imptv: ["fale", "falem"],
+      sub: ["falasse", "falasse", "falássemos", "falassem"],
+    },
+  },
+  {
+    name: "comer", group: "Regulares", tag: "modelo -ER",
+    t: {
+      pres: ["como", "come", "comemos", "comem"],
+      perf: ["comi", "comeu", "comemos", "comeram"],
+      imp: ["comia", "comia", "comíamos", "comiam"],
+      fut: ["comerei", "comerá", "comeremos", "comerão"],
+      fp: ["comeria", "comeria", "comeríamos", "comeriam"],
+      imptv: ["coma", "comam"],
+      sub: ["comesse", "comesse", "comêssemos", "comessem"],
+    },
+  },
+  {
+    name: "partir", group: "Regulares", tag: "modelo -IR",
+    t: {
+      pres: ["parto", "parte", "partimos", "partem"],
+      perf: ["parti", "partiu", "partimos", "partiram"],
+      imp: ["partia", "partia", "partíamos", "partiam"],
+      fut: ["partirei", "partirá", "partiremos", "partirão"],
+      fp: ["partiria", "partiria", "partiríamos", "partiriam"],
+      imptv: ["parta", "partam"],
+      sub: ["partisse", "partisse", "partíssemos", "partissem"],
+    },
+  },
+  {
+    name: "ser", group: "Irregulares", tag: "irregular total",
+    t: {
+      pres: ["sou", "é", "somos", "são"],
+      perf: ["fui", "foi", "fomos", "foram"],
+      imp: ["era", "era", "éramos", "eram"],
+      fut: ["serei", "será", "seremos", "serão"],
+      fp: ["seria", "seria", "seríamos", "seriam"],
+      imptv: ["seja", "sejam"],
+      sub: ["fosse", "fosse", "fôssemos", "fossem"],
+    },
+  },
+  {
+    name: "estar", group: "Irregulares", tag: "raíz estiv- en perfeito",
+    t: {
+      pres: ["estou", "está", "estamos", "estão"],
+      perf: ["estive", "esteve", "estivemos", "estiveram"],
+      imp: ["estava", "estava", "estávamos", "estavam"],
+      fut: ["estarei", "estará", "estaremos", "estarão"],
+      fp: ["estaria", "estaria", "estaríamos", "estariam"],
+      imptv: ["esteja", "estejam"],
+      sub: ["estivesse", "estivesse", "estivéssemos", "estivessem"],
+    },
+  },
+  {
+    name: "ter", group: "Irregulares", tag: "raíz tiv- en perfeito",
+    t: {
+      pres: ["tenho", "tem", "temos", "têm"],
+      perf: ["tive", "teve", "tivemos", "tiveram"],
+      imp: ["tinha", "tinha", "tínhamos", "tinham"],
+      fut: ["terei", "terá", "teremos", "terão"],
+      fp: ["teria", "teria", "teríamos", "teriam"],
+      imptv: ["tenha", "tenham"],
+      sub: ["tivesse", "tivesse", "tivéssemos", "tivessem"],
+    },
+  },
+  {
+    name: "ir", group: "Irregulares", tag: "perfeito = SER",
+    t: {
+      pres: ["vou", "vai", "vamos", "vão"],
+      perf: ["fui", "foi", "fomos", "foram"],
+      imp: ["ia", "ia", "íamos", "iam"],
+      fut: ["irei", "irá", "iremos", "irão"],
+      fp: ["iria", "iria", "iríamos", "iriam"],
+      imptv: ["vá", "vão"],
+      sub: ["fosse", "fosse", "fôssemos", "fossem"],
+    },
+  },
+  {
+    name: "fazer", group: "Irregulares", tag: "fiz · farei · faria",
+    t: {
+      pres: ["faço", "faz", "fazemos", "fazem"],
+      perf: ["fiz", "fez", "fizemos", "fizeram"],
+      imp: ["fazia", "fazia", "fazíamos", "faziam"],
+      fut: ["farei", "fará", "faremos", "farão"],
+      fp: ["faria", "faria", "faríamos", "fariam"],
+      imptv: ["faça", "façam"],
+      sub: ["fizesse", "fizesse", "fizéssemos", "fizessem"],
+    },
+  },
+  {
+    name: "dizer", group: "Irregulares", tag: "disse · direi · diria",
+    t: {
+      pres: ["digo", "diz", "dizemos", "dizem"],
+      perf: ["disse", "disse", "dissemos", "disseram"],
+      imp: ["dizia", "dizia", "dizíamos", "diziam"],
+      fut: ["direi", "dirá", "diremos", "dirão"],
+      fp: ["diria", "diria", "diríamos", "diriam"],
+      imptv: ["diga", "digam"],
+      sub: ["dissesse", "dissesse", "disséssemos", "dissessem"],
+    },
+  },
+  {
+    name: "trazer", group: "Irregulares", tag: "trouxe · trarei · traria",
+    t: {
+      pres: ["trago", "traz", "trazemos", "trazem"],
+      perf: ["trouxe", "trouxe", "trouxemos", "trouxeram"],
+      imp: ["trazia", "trazia", "trazíamos", "traziam"],
+      fut: ["trarei", "trará", "traremos", "trarão"],
+      fp: ["traria", "traria", "traríamos", "trariam"],
+      imptv: ["traga", "tragam"],
+      sub: ["trouxesse", "trouxesse", "trouxéssemos", "trouxessem"],
+    },
+  },
+  {
+    name: "vir", group: "Irregulares", tag: "no confundir con VER",
+    t: {
+      pres: ["venho", "vem", "vimos", "vêm"],
+      perf: ["vim", "veio", "viemos", "vieram"],
+      imp: ["vinha", "vinha", "vínhamos", "vinham"],
+      fut: ["virei", "virá", "viremos", "virão"],
+      fp: ["viria", "viria", "viríamos", "viriam"],
+      imptv: ["venha", "venham"],
+      sub: ["viesse", "viesse", "viéssemos", "viessem"],
+    },
+  },
+  {
+    name: "ver", group: "Irregulares", tag: "no confundir con VIR",
+    t: {
+      pres: ["vejo", "vê", "vemos", "veem"],
+      perf: ["vi", "viu", "vimos", "viram"],
+      imp: ["via", "via", "víamos", "viam"],
+      fut: ["verei", "verá", "veremos", "verão"],
+      fp: ["veria", "veria", "veríamos", "veriam"],
+      imptv: ["veja", "vejam"],
+      sub: ["visse", "visse", "víssemos", "vissem"],
+    },
+  },
+  {
+    name: "poder", group: "Irregulares", tag: "irregular solo en perfeito",
+    t: {
+      pres: ["posso", "pode", "podemos", "podem"],
+      perf: ["pude", "pôde", "pudemos", "puderam"],
+      imp: ["podia", "podia", "podíamos", "podiam"],
+      fut: ["poderei", "poderá", "poderemos", "poderão"],
+      fp: ["poderia", "poderia", "poderíamos", "poderiam"],
+      imptv: ["possa", "possam"],
+      sub: ["pudesse", "pudesse", "pudéssemos", "pudessem"],
+    },
+  },
+  {
+    name: "querer", group: "Irregulares", tag: "quis en perfeito",
+    t: {
+      pres: ["quero", "quer", "queremos", "querem"],
+      perf: ["quis", "quis", "quisemos", "quiseram"],
+      imp: ["queria", "queria", "queríamos", "queriam"],
+      fut: ["quererei", "quererá", "quereremos", "quererão"],
+      fp: ["quereria", "quereria", "quereríamos", "quereriam"],
+      imptv: ["queira", "queiram"],
+      sub: ["quisesse", "quisesse", "quiséssemos", "quisessem"],
+    },
+  },
+  {
+    name: "saber", group: "Irregulares", tag: "soube en perfeito",
+    t: {
+      pres: ["sei", "sabe", "sabemos", "sabem"],
+      perf: ["soube", "soube", "soubemos", "souberam"],
+      imp: ["sabia", "sabia", "sabíamos", "sabiam"],
+      fut: ["saberei", "saberá", "saberemos", "saberão"],
+      fp: ["saberia", "saberia", "saberíamos", "saberiam"],
+      imptv: ["saiba", "saibam"],
+      sub: ["soubesse", "soubesse", "soubéssemos", "soubessem"],
+    },
+  },
+  {
+    name: "pôr", group: "Irregulares", tag: "irregular total",
+    t: {
+      pres: ["ponho", "põe", "pomos", "põem"],
+      perf: ["pus", "pôs", "pusemos", "puseram"],
+      imp: ["punha", "punha", "púnhamos", "punham"],
+      fut: ["porei", "porá", "poremos", "porão"],
+      fp: ["poria", "poria", "poríamos", "poriam"],
+      imptv: ["ponha", "ponham"],
+      sub: ["pusesse", "pusesse", "puséssemos", "pusessem"],
+    },
+  },
+  {
+    name: "dar", group: "Irregulares", tag: "dei · dê",
+    t: {
+      pres: ["dou", "dá", "damos", "dão"],
+      perf: ["dei", "deu", "demos", "deram"],
+      imp: ["dava", "dava", "dávamos", "davam"],
+      fut: ["darei", "dará", "daremos", "darão"],
+      fp: ["daria", "daria", "daríamos", "dariam"],
+      imptv: ["dê", "deem"],
+      sub: ["desse", "desse", "déssemos", "dessem"],
+    },
+  },
+];
+
+
+/* ============ App (vanilla JS) ============ */
+const $ = (id) => document.getElementById(id);
+const strip = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const clean = (s) => s.trim().toLowerCase().replace(/\s+/g, " ");
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+const TENSE_NAME = Object.fromEntries(TENSE_LABELS.map(([k, l]) => [k, l]));
+const TENSES_BY_TOPIC = { perfeito: ["perf"], imperfeito: ["imp"], imperativo: ["imptv"], futuro: ["fut"], futpret: ["fp"], condicional: ["sub", "fp"] };
+const ALL_DRILL_TENSES = ["perf", "imp", "imptv", "fut", "fp", "sub"];
+const FEEDBACK = {
+  correct: { label: "Correto! \u2713", cls: "fb-correct" },
+  accent: { label: "Casi \u2014 revisa el acento", cls: "fb-accent" },
+  trap: { label: "Trampa cl\u00e1sica", cls: "fb-wrong" },
+  wrong: { label: "Incorrecto", cls: "fb-wrong" },
+};
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function genDrill(tKey) {
+  const irregs = VERBS.filter((v) => v.group === "Irregulares");
+  const regs = VERBS.filter((v) => v.group === "Regulares");
+  const v = Math.random() < 0.8 ? irregs[Math.floor(Math.random() * irregs.length)] : regs[Math.floor(Math.random() * regs.length)];
+  const forms = v.t[tKey];
+  const pi = Math.floor(Math.random() * forms.length);
+  const persons = tKey === "imptv" ? ["voc\u00ea", "voc\u00eas"] : PERSONS;
+  const condFrame = tKey === "sub" ? `Se ${persons[pi]} ___ \u2026 (${v.name})` : tKey === "fp" ? `${persons[pi]} ___ , se pudesse\u2026 (${v.name})` : null;
+  return {
+    drill: true,
+    q: condFrame || `${persons[pi]} ___ (${v.name})`,
+    verb: `${v.name} \u00b7 ${TENSE_NAME[tKey]}`,
+    a: [forms[pi]],
+    exp: `${TENSE_NAME[tKey]} de ${v.name.toUpperCase()}: ${forms.join(" \u00b7 ")}`,
+    topicTitle: TENSE_NAME[tKey],
+  };
+}
+const genAnyDrill = () => genDrill(ALL_DRILL_TENSES[Math.floor(Math.random() * ALL_DRILL_TENSES.length)]);
+
+function evaluate(input, question) {
+  const given = clean(input);
+  if (!given) return null;
+  for (const acc of question.a) if (given === clean(acc)) return { status: "correct", expected: acc };
+  for (const acc of question.a) if (strip(given) === strip(clean(acc))) return { status: "accent", expected: acc };
+  if (question.traps) {
+    for (const [wrong, msg] of Object.entries(question.traps))
+      if (strip(given) === strip(clean(wrong))) return { status: "trap", expected: question.a[0], trapMsg: msg };
+  }
+  return { status: "wrong", expected: question.a[0] };
+}
+
+function diffHTML(expected, given) {
+  const e = expected.toLowerCase();
+  const g = clean(given);
+  return ('<span class="diff-word">' + [...e].map((ch, i) => (g[i] === ch ? esc(ch) : `<span class="diff-hl">${esc(ch)}</span>`)).join("") + "</span>");
+}
+
+/* ---------- estado ---------- */
+const S = { view: "home", verbName: "falar", quiz: null };
+
+const App = {
+  home() { S.view = "home"; render(); },
+  tables() { S.view = "tables"; render(); },
+  conjugador() { S.view = "conjugador"; render(); },
+  setVerb(n) { S.verbName = n; render(); },
+
+  startTopic(id) {
+    const topic = TOPICS.find((t) => t.id === id);
+    const curated = shuffle(topic.questions).slice(0, 8).map((q) => Object.assign({}, q, { topicTitle: topic.title }));
+    const tenses = TENSES_BY_TOPIC[id] || [];
+    const drills = [];
+    for (let i = 0; i < (tenses.length ? 6 : 0); i++) drills.push(genDrill(tenses[i % tenses.length]));
+    startQuiz(topic.title, shuffle(curated.concat(drills)), false);
+  },
+  simulado() {
+    let qs = [];
+    TOPICS.forEach((t) => { qs = qs.concat(shuffle(t.questions).slice(0, 2).map((q) => Object.assign({}, q, { topicTitle: t.title }))); });
+    ALL_DRILL_TENSES.forEach((tk) => qs.push(genDrill(tk)));
+    startQuiz("Simulado geral", shuffle(qs), false);
+  },
+  infinite() { startQuiz("Pr\u00e1tica infinita", [genAnyDrill()], true); },
+
+  check() {
+    const q = cur();
+    const val = $("answer") ? $("answer").value : "";
+    const r = evaluate(val, q);
+    if (!r) return;
+    S.quiz.result = r;
+    S.quiz.given = val;
+    S.quiz.log.push(Object.assign({}, r, { given: val, q }));
+    render();
+  },
+  next() {
+    if (S.quiz.infinite) {
+      S.quiz.questions.push(genAnyDrill());
+      S.quiz.idx++; S.quiz.result = null; S.quiz.given = "";
+      render(); return;
+    }
+    if (S.quiz.idx + 1 >= S.quiz.questions.length) { S.view = "results"; render(); }
+    else { S.quiz.idx++; S.quiz.result = null; S.quiz.given = ""; render(); }
+  },
+  exitQuiz() {
+    if (S.quiz && S.quiz.infinite && S.quiz.log.length) S.view = "results";
+    else S.view = "home";
+    render();
+  },
+};
+
+function startQuiz(title, questions, infinite) {
+  S.quiz = { title, questions, infinite, idx: 0, result: null, given: "", log: [] };
+  S.view = "quiz";
+  render();
+}
+const cur = () => S.quiz.questions[S.quiz.idx];
+
+function onKey(e) {
+  if (e.key === "Enter") { e.preventDefault(); S.quiz.result ? App.next() : App.check(); }
+}
+
+/* ---------- vistas ---------- */
+function vHome() {
+  const date = new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long" });
+  return `
+  <header class="hero">
+    <p class="eyebrow">Revis\u00e3o de portugu\u00eas \u00b7 ${esc(date)}</p>
+    <h1>Bora praticar,<br/><em>voc\u00ea vai arrasar.</em></h1>
+    <p class="hero-sub">7 temas, foco en los verbos irregulares y feedback que te dice exactamente qu\u00e9 corregir \u2014 incluidos los acentos. Cada ronda es diferente.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="App.simulado()">Empezar simulado completo</button>
+      <button class="btn-primary btn-amber" onclick="App.infinite()">Pr\u00e1tica infinita \u221e</button>
+      <button class="btn-ghost" onclick="App.conjugador()">Conjugador de verbos</button>
+      <button class="btn-ghost" onclick="App.tables()">Ver tablas de irregulares</button>
+    </div>
+  </header>
+  <div class="topic-grid">
+    ${TOPICS.map((t) => `
+      <button class="topic-card" onclick="App.startTopic('${t.id}')">
+        <span class="topic-title">${esc(t.title)}</span>
+        <span class="topic-sub">${esc(t.sub)}</span>
+        <span class="topic-count">${t.questions.length} preguntas + ejercicios generados \u2192</span>
+      </button>`).join("")}
+  </div>`;
+}
+
+function vTables() {
+  return `
+  <button class="btn-back" onclick="App.home()">\u2190 Volver</button>
+  <h2 class="section-title">Tablas de irregulares</h2>
+  <div class="tables-grid">
+    ${TABLES.map((tb) => `
+      <div class="table-card">
+        <h3>${esc(tb.title)}</h3>
+        <p class="table-note">${esc(tb.note)}</p>
+        <dl>${tb.rows.map(([k, v]) => `<div class="table-row"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>
+      </div>`).join("")}
+  </div>`;
+}
+
+function vConjugador() {
+  const verb = VERBS.find((v) => v.name === S.verbName) || VERBS[0];
+  const groups = ["Regulares", "Irregulares"];
+  return `
+  <button class="btn-back" onclick="App.home()">\u2190 Volver</button>
+  <h2 class="section-title">Conjugador de verbos</h2>
+  ${groups.map((g) => `
+    <div class="chip-group">
+      <p class="chip-label">${g}</p>
+      <div class="chip-row">
+        ${VERBS.filter((v) => v.group === g).map((v) =>
+          `<button class="chip ${v.name === S.verbName ? "chip-active" : ""}" onclick="App.setVerb('${v.name}')">${esc(v.name)}</button>`).join("")}
+      </div>
+    </div>`).join("")}
+  <div class="conj-head"><h3 class="conj-verb">${esc(verb.name)}</h3><span class="conj-tag">${esc(verb.tag)}</span></div>
+  <div class="conj-grid">
+    ${TENSE_LABELS.map(([key, label]) => {
+      const forms = verb.t[key];
+      const persons = key === "imptv" ? ["voc\u00ea", "voc\u00eas"] : PERSONS;
+      return `<div class="conj-card"><h4>${esc(label)}</h4><dl>
+        ${forms.map((f, i) => `<div class="conj-row"><dt>${esc(persons[i])}</dt><dd>${esc(f)}</dd></div>`).join("")}
+      </dl></div>`;
+    }).join("")}
+  </div>`;
+}
+
+function vQuiz() {
+  const q = cur();
+  const parts = q.q.split("___");
+  const r = S.quiz.result;
+  const fb = r ? FEEDBACK[r.status] : null;
+  const ok = S.quiz.log.filter((l) => l.status === "correct").length;
+  const total = S.quiz.questions.length;
+  const progress = S.quiz.infinite
+    ? `<div class="progress-bar"><div class="progress-fill progress-infinite"></div></div>`
+    : `<div class="progress-bar"><div class="progress-fill" style="width:${((S.quiz.idx + (r ? 1 : 0)) / total) * 100}%"></div></div>`;
+  const counter = S.quiz.infinite ? `pregunta ${S.quiz.idx + 1} \u00b7 \u2713 ${ok}` : `${S.quiz.idx + 1} / ${total}`;
+
+  let fbHtml = "";
+  if (r) {
+    let line = "";
+    if (r.status === "accent") line = `Escribiste <span class="fb-given">${esc(S.quiz.given.trim())}</span> \u2014 la forma correcta es ${diffHTML(r.expected, S.quiz.given)}. La letra marcada lleva la diferencia.`;
+    if (r.status === "trap") line = `<span class="fb-given">${esc(S.quiz.given.trim())}</span> \u2192 ${esc(r.trapMsg)} Correcto: <strong class="fb-answer">${esc(r.expected)}</strong>`;
+    if (r.status === "wrong") line = `Escribiste <span class="fb-given">${esc(S.quiz.given.trim())}</span>. Correcto: <strong class="fb-answer">${esc(r.expected)}</strong>`;
+    fbHtml = `
+    <div class="feedback ${fb.cls}">
+      <p class="fb-label">${fb.label}</p>
+      ${line ? `<p class="fb-line">${line}</p>` : ""}
+      <p class="fb-exp">${esc(q.exp)}</p>
+      <button id="nextBtn" class="btn-primary" onclick="App.next()">${S.quiz.infinite || S.quiz.idx + 1 < total ? "Siguiente" : "Ver resultados"} \u2192</button>
+    </div>`;
+  }
+
+  return `
+  <div class="quiz-top">
+    <button class="btn-back" onclick="App.exitQuiz()">\u2190 ${S.quiz.infinite ? "Terminar" : "Salir"}</button>
+    <span class="quiz-progress">${esc(S.quiz.title)} \u00b7 ${counter}</span>
+  </div>
+  ${progress}
+  <div class="q-card">
+    <p class="q-hint">Verbo: <strong>${esc(q.verb)}</strong>${q.topicTitle && (q.drill || S.quiz.title === "Simulado geral") ? `<span class="q-topic"> \u00b7 ${esc(q.topicTitle)}</span>` : ""}</p>
+    <p class="q-sentence">${esc(parts[0])}<input id="answer" class="q-input ${r ? fb.cls + "-input" : ""}" ${r ? "disabled" : ""} placeholder="\u2026" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="off"/>${esc(parts[1] || "")}</p>
+    ${!r ? `<div class="q-actions"><button class="btn-primary" onclick="App.check()">Verificar</button><span class="kbd-hint">o pulsa Enter</span></div>` : ""}
+    ${fbHtml}
+  </div>`;
+}
+
+function vResults() {
+  const log = S.quiz ? S.quiz.log : [];
+  const total = log.length;
+  const correct = log.filter((l) => l.status === "correct").length;
+  const accents = log.filter((l) => l.status === "accent").length;
+  const misses = log.filter((l) => l.status !== "correct");
+  const byTopic = {};
+  log.forEach((l) => {
+    const t = l.q.topicTitle || "Geral";
+    byTopic[t] = byTopic[t] || { ok: 0, total: 0 };
+    byTopic[t].total++;
+    if (l.status === "correct") byTopic[t].ok++;
+  });
+  const weak = Object.entries(byTopic).filter(([, v]) => v.ok / v.total < 0.7).map(([k]) => k);
+  const pct = total ? Math.round((correct / total) * 100) : 0;
+  const msg = pct >= 80 ? "Est\u00e1 pronto! \ud83c\udf89" : pct >= 60 ? "Quase l\u00e1 \u2014 repasa los fallos abajo." : "Respira: repasa las tablas y vuelve a intentarlo.";
+
+  return `
+  <h2 class="section-title">Resultado</h2>
+  <p class="score"><span class="score-big">${correct}/${total}</span><span class="score-pct">${pct}% \u00b7 ${msg}</span></p>
+  ${accents > 0 ? `<p class="accent-note">\u26a0 ${accents} ${accents === 1 ? "respuesta era correcta salvo por el acento" : "respuestas eran correctas salvo por el acento"}. En el examen escrito eso descuenta \u2014 rep\u00e1salos abajo.</p>` : ""}
+  ${weak.length ? `<p class="weak-note">Temas para repasar: <strong>${weak.map(esc).join(" \u00b7 ")}</strong></p>` : ""}
+  ${misses.length ? `
+    <div class="miss-list">
+      <h3>Lo que hay que corregir</h3>
+      ${misses.map((m) => `
+        <div class="miss-item ${m.status === "accent" ? "miss-accent" : ""}">
+          <p class="miss-q">${esc(m.q.q.replace("___", `[${m.q.a[0]}]`))}</p>
+          <p class="miss-detail">Tu respuesta: <span class="fb-given">${esc(m.given.trim())}</span>${m.status === "accent" ? ` \u00b7 solo falt\u00f3 el acento: ${diffHTML(m.q.a[0], m.given)}` : ` \u00b7 correcto: <strong>${esc(m.q.a[0])}</strong>`}</p>
+          <p class="miss-exp">${esc(m.q.exp)}</p>
+        </div>`).join("")}
+    </div>` : ""}
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="App.home()">Volver al inicio</button>
+    <button class="btn-ghost" onclick="App.conjugador()">Conjugador</button>
+    <button class="btn-ghost" onclick="App.tables()">Repasar tablas</button>
+  </div>`;
+}
+
+function render() {
+  const root = $("app");
+  const views = { home: vHome, tables: vTables, conjugador: vConjugador, quiz: vQuiz, results: vResults };
+  root.innerHTML = views[S.view]();
+  if (S.view === "quiz") {
+    const a = $("answer");
+    if (a) {
+      a.value = S.quiz.given || "";
+      a.addEventListener("keydown", onKey);
+      if (!S.quiz.result) a.focus();
+    }
+    const n = $("nextBtn");
+    if (n) n.focus();
+    document.addEventListener("keydown", quizEnter);
+  } else {
+    document.removeEventListener("keydown", quizEnter);
+  }
+  window.scrollTo(0, 0);
+}
+function quizEnter(e) {
+  if (e.key === "Enter" && S.view === "quiz" && S.quiz.result) { e.preventDefault(); App.next(); }
+}
+
+render();
+
+/* ---------- PWA ---------- */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  });
+}
+
+</script>
+</body>
+</html>
